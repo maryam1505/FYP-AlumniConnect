@@ -1,4 +1,4 @@
-⭐ # Alumni Connect: Web & Mobile Portal
+# ⭐ Alumni Connect: Web & Mobile Portal
 
 Complete Repository (Web • Mobile • API)
 
@@ -11,7 +11,8 @@ This repository contains:
 
 -> Backend API (Laravel + MongoDB + JWT)
 
-📁 # Repository Structure
+# 📁 Repository Structure
+
 alumni-connect/
 │
 ├── web/          # React + Vite web app (Admin Panel + Website)
@@ -23,7 +24,7 @@ alumni-connect/
 ├── LICENSE
 └── README.md     # You are reading this
 
-🚀 # Project Overview
+# 🚀 Project Overview
 
 Alumni Connect is a unified platform where:
 
@@ -43,9 +44,9 @@ Team Members:
 | Ayesha | Backend Developer (Laravel API + MongoDB) |
 | Faiza  | Frontend Developer (Web + Mobile)         |
 
-🧰 # Tech Stack
+# 🧰 Tech Stack
 
-🎨 Frontend Web (React + Vite)
+# 🎨 Frontend Web (React + Vite)
 -> React 18
 
 -> Vite
@@ -56,7 +57,7 @@ Team Members:
 
 -> Axios
 
-📱 Mobile App (React Native)
+# 📱 Mobile App (React Native)
 
 -> Expo
 
@@ -66,7 +67,7 @@ Team Members:
 
 -> React Navigation
 
-🔧 Backend API (Laravel)
+# 🔧 Backend API (Laravel)
 
 -> Laravel 12
 
@@ -76,48 +77,48 @@ Team Members:
 
 -> RESTful API architecture
 
-🗂️ # Setup Instructions
+# 🗂️ Setup Instructions
 
 Below are complete instructions for setting up all three parts.
 
-🌐 1. Setup Web (React + Vite)
-📌 Create Project
+# 🌐 1. Setup Web (React + Vite)
+# 📌 Create Project
 
 cd web
 npm create vite@latest . -- --template react
 npm install
 
-📌 Install Tailwind CSS
+# 📌 Install Tailwind CSS
 
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 
 Configure tailwind.config.js and add Tailwind directives in src/index.css.
 
-▶️ Run Web App
+Z# ▶️ Run Web App
 
 npm run dev
 
-📱 2. Setup Mobile (React Native + Expo)
-📌 Create Project
+# 📱 2. Setup Mobile (React Native + Expo)
+# 📌 Create Project
 
 cd mobile
 npx create-expo-app .
 npm install
 
-▶️ Run Mobile App
+# ▶️ Run Mobile App
 
 npx expo start
 
 Scan the QR code using Expo Go on your phone.
 
-🔌 3. Setup Backend API (Laravel + MongoDB + JWT)
-📌 Create Laravel Project
+# 🔌 3. Setup Backend API (Laravel + MongoDB + JWT)
+# 📌 Create Laravel Project
 
 cd api
 composer create-project laravel/laravel .
 
-📌 Install MongoDB driver
+# 📌 Install MongoDB driver
 composer require mongodb/laravel-mongodb
 
 Configure config/database.php and update .env:
@@ -128,17 +129,17 @@ DB_DATABASE=<dbname>
 DB_USERNAME=<user>
 DB_PASSWORD=<password>
 
-📌 Install JWT Auth
+# 📌 Install JWT Auth
 
 composer require tymon/jwt-auth
 php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
 php artisan jwt:secret
 
-▶️ Run API Server
+# ▶️ Run API Server
 
 php artisan serve
 
-🌿 # Git Workflow (Simple for Team)
+# 🌿 Git Workflow (Simple for Team)
 
 We use a clean, beginner-friendly workflow:
 
@@ -162,7 +163,7 @@ git push origin feature/api-auth
 
 Create a Pull Request on GitHub → teammate reviews → merge into develop.
 
-📘 Contribution Rules (Beginner-Friendly)
+# 📘 Contribution Rules (Beginner-Friendly)
 
 ALWAYS create a feature branch
 
@@ -176,7 +177,8 @@ Add/update documentation in docs/
 
 Do not commit .env, node_modules/, /vendor
 
-🔍 # API Structure (High-Level)
+# 🔍 API Structure (High-Level)
+
 api/
 ├── app/
 │   ├── Http/Controllers/
@@ -191,7 +193,7 @@ Sample route:
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->get('/profile', [UserController::class, 'profile']);
 
-🧪 # Testing Tools
+# 🧪 Testing Tools
 
 -> Postman
 
@@ -201,7 +203,7 @@ Route::middleware('auth:api')->get('/profile', [UserController::class, 'profile'
 
 -> Laravel API testing via php artisan test
 
-🗺️ # Roadmap 
+# 🗺️ Roadmap 
 
 -> Admin panel dashboard
 
@@ -219,14 +221,15 @@ Route::middleware('auth:api')->get('/profile', [UserController::class, 'profile'
 
 -> Deployment (Web + Mobile + API)
 
-📄 # License
+# 📄 License
 
 Open-source under MIT
 
-❤️ # Acknowledgements
+# ❤️ Acknowledgements
 
 University of Education
 
 Project Supervisor
 
 Development Team (Ayesha & Faiza)
+
