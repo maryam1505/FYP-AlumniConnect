@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('messages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('sender_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('receiver_id')->constrained('users')->cascadeOnDelete();
+            $table->text('content');
+            $table->boolean('is_read')->default(false);
+            $table->timestamp('read_at')->nullable();
+            $table->timestamps(); // created_at = sent_at
+
+            $table->index('sender_id');
+            $table->index('receiver_id');
+            $table->index('created_at');
+
+            // Compound index for fetching a full conversation between two users
+            $table->index(['sender_id', 'receiver_id', 'created_at'], 'idx_msg_conversation');
+
+            // Index for unread messages per user
+            $table->index(['receiver_id', 'is_read'], 'idx_msg_unread');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('messages');
+    }
+};
