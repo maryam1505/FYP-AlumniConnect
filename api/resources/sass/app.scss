@@ -1,0 +1,13 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+
+
+// Your variables FIRST
+@import './admin/themes/_variables';
+
+// Template Bootstrap (IMPORTANT — correct path)
+@import './admin/bootstrap/bootstrap';
+
+// Template theme styles
+@import './admin/theme';
