@@ -32,6 +32,7 @@ class User extends Authenticatable implements JWTSubject {
         'is_verified'       => 'boolean',
         'last_login'        => 'datetime',
         'registration_date' => 'datetime',
+        'expected_graduation' => 'datetime',
         'student_info'      => 'array',
         'alumni_info'       => 'array',
         'admin_info'        => 'array',
@@ -61,37 +62,37 @@ class User extends Authenticatable implements JWTSubject {
 
     public function feedPosts()
     {
-        return $this->hasMany(FeedPost::class, 'user_id');
+        return $this->hasMany(FeedPost::class, 'user_id', '_id');
     }
 
     public function sentMessages()
     {
-        return $this->hasMany(Message::class, 'sender_id');
+        return $this->hasMany(Message::class, 'sender_id', '_id');
     }
 
     public function receivedMessages()
     {
-        return $this->hasMany(Message::class, 'receiver_id');
+        return $this->hasMany(Message::class, 'receiver_id', '_id');
     }
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class, 'user_id');
+        return $this->hasMany(Notification::class, 'user_id', '_id');
     }
 
     public function jobPostings()
     {
-        return $this->hasMany(JobPosting::class, 'alumni_id');
+        return $this->hasMany(JobPosting::class, 'alumni_id', '_id');
     }
 
     public function jobApplications()
     {
-        return $this->hasMany(JobApplication::class, 'applicant_id');
+        return $this->hasMany(JobApplication::class, 'applicant_id', '_id');
     }
 
     public function mentorshipChannels()
     {
-        return $this->hasMany(MentorshipChannel::class, 'mentor_id');
+        return $this->hasMany(MentorshipChannel::class, 'mentor_id', '_id');
     }
 
      /* ── Role Helpers ────────────────────────────────────────────────── */
@@ -101,11 +102,12 @@ class User extends Authenticatable implements JWTSubject {
     public function isStudent(): bool { return $this->role === 'student'; }
     public function isActive(): bool  { return $this->status === 'active'; }
     
-    // protected function casts(): array
-    // {
-    //     return [
-    //         'email_verified_at' => 'datetime',
-    //         'password' => 'hashed',
-    //     ];
-    // }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            Profile::where('user_id', $user->_id)->delete();
+        });
+    }
 }

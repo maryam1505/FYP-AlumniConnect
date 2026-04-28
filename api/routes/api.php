@@ -3,8 +3,9 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\MentorshipChannelController;
+use App\Http\Controllers\MentorshipSessionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,25 +19,33 @@ Route::prefix('auth')->group(function(){
 });
 
 
-Route::middleware(['auth:jwt'])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
 
-    // ── Auth ─────────────────────────────────────────────────────────
+    /* ── Auth ───────────────────────────────────────────────────────── */
     Route::prefix('auth')->group(function () {
         Route::post('logout',          [AuthController::class, 'logout']);
-        Route::post('refresh',         [AuthController::class, 'refresh']);
-        Route::get('me',               [AuthController::class, 'me']);
         Route::put('change-password',  [AuthController::class, 'changePassword']);
     });
 
-    // ── Admin ─────────────────────────────────────────────────────────
-    Route::middleware('role:admin')->prefix('admin')->group(function () {
-        Route::get('dashboard',                    [AdminController::class, 'dashboard']);
-        Route::get('users',                        [AdminController::class, 'users']);
-        Route::put('users/{id}/status',            [AdminController::class, 'updateUserStatus']);
-        Route::put('users/{id}/verify',            [AdminController::class, 'verifyUser']);
-        Route::delete('users/{id}',                [AdminController::class, 'deleteUser']);
-        Route::get('logs',                         [AdminController::class, 'logs']);
-        Route::put('events/{id}/status',           [AdminController::class, 'updateEventStatus']);
-        Route::put('jobs/{id}/status',             [AdminController::class, 'updateJobStatus']);
-    });
+    /* ── Profile ─────────────────────────────────────────────────────── */
+    Route::get('profile',              [ProfileController::class, 'show']);
+    Route::put('profile',              [ProfileController::class, 'update']);
+    Route::post('profile/picture',     [ProfileController::class, 'uploadPicture']);
+    Route::get('users/{id}/profile',   [ProfileController::class, 'showUser']);
+
+    /* ── Users ───────────────────────────────────────────────────────── */
+    Route::get('batch/users',          [UserController::class, 'show']);
+
+    /* ── Mentorship Channel ──────────────────────────────────────────── */
+    Route::post('mentorship-channel',  [MentorshipChannelController::class, 'store']);
+    Route::get('mentorship/channels',  [MentorshipChannelController::class, 'index']);
+    Route::post('mentorship/channels/{id}/join',   [MentorshipChannelController::class, 'join']);
+    Route::get('mentorship/channels/{id}/members', [MentorshipChannelController::class, 'members']);
+    Route::put('mentorship/channel/{id}/update', [MentorshipChannelController::class, 'update']);
+    Route::delete('mentorship/channel/{id}/destroy', [MentorshipChannelController::class, 'destroy']);
+
+    Route::post('channels/{id}/sessions', [MentorshipSessionController::class, 'store']);
+    Route::get('channels/{id}/sessions', [MentorshipSessionController::class, 'index']);
+    Route::post('channels/sessions/{id}/join', [MentorshipSessionController::class, 'join']);
+    
 });

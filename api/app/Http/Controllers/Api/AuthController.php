@@ -9,6 +9,7 @@ use App\Models\SystemLog;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -123,6 +124,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
         $credentials = $request->only('email', 'password');
 
         try {
@@ -250,10 +252,37 @@ class AuthController extends Controller
     }
     
     public function logout() {
-        
+        try {
+            JWTAuth::invalidate(JWTAuth::getToken());
+
+            return response()->json([
+                'message' => 'Logged out successfully'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Failed to logout',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    public function changePassword() {
-        
+    public function changePassword(Request $request) {
+        $validator = Validator::make($request->all(),[
+            'password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = Auth::user();
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Password updated successfully'
+        ], 200);
     }
 }
