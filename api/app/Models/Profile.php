@@ -21,7 +21,10 @@ class Profile extends Model
         'date_of_birth' => 'date',
         'social_links'  => 'array',
         'address'       => 'array',
+        'user_id' => 'string'
     ];
 
-    public function user() { return $this->belongsTo(User::class, 'user_id'); }
+    public function user() { 
+        return $this->belongsTo(User::class, 'user_id', '_id'); 
+    }
 }

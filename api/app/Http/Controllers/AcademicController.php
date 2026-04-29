@@ -9,9 +9,7 @@ use App\Models\Department;
 use App\Models\Profile;
 use App\Models\Program;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -94,7 +92,6 @@ class AcademicController extends Controller
 
             $userId = (string) $user->getKey();
 
-            // Now create profile with valid user_id
             $profile = Profile::create([
                 'user_id'       => $userId,
                 'full_name'     => $request->full_name,
@@ -105,32 +102,31 @@ class AcademicController extends Controller
                 'date_of_birth' => $request->dob,
             ]);
 
-            // Verify profile was actually created with correct user_id
+            
             $verifyProfile = Profile::where('user_id', $userId)->first();
 
-            if (!$verifyProfile) {
-                // Delete the user since profile failed
+            if (!$verifyProfile) { 
                 $user->delete();
                 return back()->withInput()->with('error', 'Failed to create student profile.');
             }
 
 
-            // Try sending email
             $emailSent = false;
             try {
                 Mail::to($user->email)->send(new StudentWelcomeMail($request->email, $password, $request->full_name));
                 $emailSent = true;
-            } catch (Exception $mailException) {
+            } catch (\Exception $mailException) {
                 Log::warning('Welcome email failed: ' . $mailException->getMessage());
             }
 
-            $user->update(['student_info.email_sent' => $emailSent]);
+            $studentInfo = $user->student_info;
+            $studentInfo['email_sent'] = $emailSent;
+            $user->student_info = $studentInfo;
+            $user->save();
 
             return redirect()->route('students')->with('success', 'Student created successfully');
 
-        } catch (Exception $e) {
-
-            dd($e->getMessage());
+        } catch (\Exception $e) {
             return back()->withInput()->with('error', 
                 'Failed to create student: ' . $e->getMessage()
             );

@@ -7,7 +7,7 @@
 </head>
 <body style="margin:0; padding:0; background-color:#f4f4f4; font-family:Arial, sans-serif;">
 
-    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4; padding:20px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding:20px;">
         <tr>
             <td>
                 
@@ -31,10 +31,10 @@
                             <p>Your account has been created successfully. </p>
 
                             <!-- OTP Box -->
-                            <div style="text-align:center; margin:30px 0;">
-                                <span style="display:inline-block; padding:15px 30px; font-size:20px; background:#f3f4f6; border-radius:8px; font-weight:bold;">
-                                    <strong>Username:</strong> {{ $email }}
-                                    <br><strong>Password:</strong> {{ $password }}
+                            <div style="text-align:left; margin:30px 0;">
+                                <span style="display:inline-block; padding:15px 30px; font-size:16px; background:#f3f4f6; border-radius:8px; font-weight:bold;">
+                                    <span>Username: {{ $email }}</span>
+                                    <span>Password: {{ $password }}</span>
                                 </span>
                             </div>
 
